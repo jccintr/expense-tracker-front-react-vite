@@ -1,10 +1,26 @@
-import { Button } from "@/components/ui/button"
+import { BrowserRouter,Route,Routes } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
+import PrivateRoute from './routes/PrivateRoute';
+import Login from './pages/Login';
+import { Home } from './pages/Home';
+
 
 function App() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-svh">
-      <Button>Click me</Button>
-    </div>
+    <AuthProvider>
+   
+          <BrowserRouter>
+           
+              <Routes>
+                  <Route path="/login" element={<Login/>}/>
+                  <Route element={<PrivateRoute/>}>
+                      <Route path="/" element={<Home/>}/>
+                  </Route>
+              </Routes>
+           
+          </BrowserRouter>
+     
+   </AuthProvider>
   )
 }
 
