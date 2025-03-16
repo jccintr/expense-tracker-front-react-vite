@@ -36,11 +36,13 @@ const getAccounts = async () => {
 
 const onAdd = () => {
   setAccount({id:0,name:''});
+  setErrorMessage(null);
   setIsModalOpen(true);
 }
 
 const onEdit = (account) => {
   setAccount(account);
+  setErrorMessage(null);
   setIsModalEditOpen(true);
 }
 
