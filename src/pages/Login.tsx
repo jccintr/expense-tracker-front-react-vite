@@ -8,7 +8,8 @@ import logo from '../assets/logo350.png';
 import { useState,useContext } from "react";
 import AuthContext from "@/context/AuthContext"
 import { useNavigate } from 'react-router-dom';
-//import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { Loader2 } from "lucide-react"
+
 //import { AlertCircle } from "lucide-react"
 
 
@@ -17,6 +18,7 @@ const Login = () => {
     const [formData,setFormData] = useState({email:'',password:''});
     const [errorMessage,setErrorMessage] = useState(null);
     const {setToken,setLoggedUser} = useContext(AuthContext);
+    const [isLoading,setIsloading] = useState(false);
     const navigate = useNavigate();
 
     const handleChange = (e: { target: { id: any; value: string; }; }) => {
@@ -40,27 +42,29 @@ const Login = () => {
             return;
           }
 
-
+         setIsloading(true);
           try {
             var response = await api.login(formData.email, formData.password);
          } catch (error) {
+            setIsloading(false);
             setErrorMessage('Serviço indisponível. Tente novamente mais tarde.')
             return;
          }
 
          if(response.status!==200){
+            setIsloading(false);
             setErrorMessage('Email e ou senha inválidos.');
-            
             return;
         }
 
         const jsonToken = await response.json();
         setToken(jsonToken.token);
-        console.log(jsonToken.token);
+        
 
         try {
             response = await api.validateToken(jsonToken.token);
           } catch (error) {
+            setIsloading(false);
             setErrorMessage('Serviço indisponível. Tente novamente mais tarde.')
              return;
           }
@@ -68,18 +72,19 @@ const Login = () => {
           if(response.ok){
              let jsonUser = await response.json();
              setLoggedUser(jsonUser);
-             navigate('/');
+             navigate('/?page=transactions');
+             setIsloading(false);
           //   navigation.reset({routes:[{name:'home'}]}); 
           }
        
     }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-svh">
+    <div className="flex flex-col items-center justify-center min-h-svh bg-gray-100">
         <Card className="w-[350px]">
             <CardHeader className="justify-center">
                <img src={logo} alt='logo' className='w-8/12 m-auto' />
-               <CardTitle className="w-full text-center text-xl" >Expense Tracker Login</CardTitle>
+               <CardTitle className="w-full text-center text-xl" >Expense Tracker</CardTitle>
                <CardDescription className="w-full text-center text-sm">Informe suas credenciais para acessar o sistema</CardDescription>
             </CardHeader>
             <CardContent>
@@ -90,7 +95,7 @@ const Login = () => {
                {errorMessage&&<Label className="text-red-500 mt-3 w-full justify-center">{errorMessage}</Label>}
             </CardContent>
             <CardFooter>
-                <Button className="w-full" onClick={handleSubmit}>ENTRAR</Button>
+                <Button className="w-full" onClick={handleSubmit}>{isLoading&&<Loader2 className="animate-spin" />}ENTRAR</Button>
             </CardFooter>
         </Card>
     </div>
