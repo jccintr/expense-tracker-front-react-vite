@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button'
-import React,{useState,useEffect,useContext} from 'react'
+import {useState,useEffect,useContext} from 'react'
 import api from '@/api/api';
 import AuthContext from '@/context/AuthContext';
 import TableCategories from '@/components/tables/TableCategories';
@@ -16,6 +16,7 @@ const Categories = () => {
   const [isModalDeleteOpen,setIsModalDeleteOpen] = useState(false);
   const [isModalEditOpen,setIsModalEditOpen] = useState(false);
   const [category,setCategory] = useState({id:0,name:''});
+  const [errorMessage,setErrorMessage] = useState(null);
  
 
   useEffect(()=>{
@@ -34,11 +35,13 @@ const getCategories = async () => {
 
 const onAdd = () => {
     setCategory({id:0,name:''});
+    setErrorMessage(null);
     setIsModalOpen(true);
 }
 
 const onEdit = (category) => {
     setCategory(category);
+    setErrorMessage(null);
     setIsModalEditOpen(true);
 }
 
@@ -48,12 +51,12 @@ const onDelete = (category) => {
 }
 
 const addCategory = async  () => {
-  /*
-  if(name.trim().length===0){
-    Alert.alert("Error","Please, enter a valid category name.");
+  
+  if(category.name.trim().length===0){
+    setErrorMessage('Nome da categoria inválido.');
     return;
    }
-    */
+    
    setIsLoading(true);
     const response = await api.addCategory(token,category.name);
     if(response.ok){
@@ -65,12 +68,12 @@ const addCategory = async  () => {
 }
 
 const updateCategory = async  () => {
-/*
-  if(name.trim().length===0){
-    Alert.alert("Error","Please, enter a valid category name.");
+
+  if(category.name.trim().length===0){
+    setErrorMessage('Nome da categoria inválido.');
     return;
    }
-    */
+
    setIsLoading(true);
     const response = await api.updateCategory(token,category.id,category.name);
     if(response.ok){
@@ -107,8 +110,8 @@ const deleteCategory = async () => {
            <Button onClick={()=>onAdd()}>Nova Categoria</Button>
         </div>
         <TableCategories categories={categories} onEdit={onEdit} onDelete={onDelete}/>
-        <CategoryModal isLoading={isLoading} category={category} setCategory={setCategory} isOpen={isModalOpen} setIsOpen={setIsModalOpen} title={'Nova Categoria'} description={'Insira os dados da nova categoria e clique em Salvar.'} onSave={addCategory}/>
-        <CategoryModal isLoading={isLoading} category={category} setCategory={setCategory} isOpen={isModalEditOpen} setIsOpen={setIsModalEditOpen} title={'Editando Categoria'} description={'Altere os dados da categoria e clique em Salvar.'} onSave={updateCategory}/>
+        <CategoryModal errorMessage={errorMessage} isLoading={isLoading} category={category} setCategory={setCategory} isOpen={isModalOpen} setIsOpen={setIsModalOpen} title={'Nova Categoria'} description={'Insira os dados da nova categoria e clique em Salvar.'} onSave={addCategory}/>
+        <CategoryModal errorMessage={errorMessage} isLoading={isLoading} category={category} setCategory={setCategory} isOpen={isModalEditOpen} setIsOpen={setIsModalEditOpen} title={'Editando Categoria'} description={'Altere os dados da categoria e clique em Salvar.'} onSave={updateCategory}/>
         <DeleteAlert isLoading={isLoading} deleteAction={deleteCategory} isOpen={isModalDeleteOpen} setIsOpen={setIsModalDeleteOpen} title="Deseja deletar esta categoria ?" description={'Esta operação vai excluir a categoria do banco de dados e não poderá ser revertida.'}/>
     </div>
   )

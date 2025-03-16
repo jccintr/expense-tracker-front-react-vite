@@ -13,7 +13,7 @@ import {
   import { Input } from "@/components/ui/input"
   import { Label } from "@/components/ui/label"
 
-const AccountModal = ({isOpen,setIsOpen,title,description,onSave,account,setAccount,isLoading}) => {
+const AccountModal = ({isOpen,setIsOpen,title,description,onSave,account,setAccount,isLoading,errorMessage}) => {
      
 
   return (
@@ -34,6 +34,7 @@ const AccountModal = ({isOpen,setIsOpen,title,description,onSave,account,setAcco
        
       </div>
       <DialogFooter>
+       {errorMessage&&<Label className="text-red-500 w-full justify-items-start">{errorMessage}</Label>}
         <Button onClick={()=>onSave()}>{isLoading&&<Loader2 className="animate-spin" />}SALVAR</Button>
       </DialogFooter>
     </DialogContent>
