@@ -1,5 +1,5 @@
 
-export const months = ['January','February','March','April','May','June','July','August','September','November','December'];
+export const months = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 
 export function formataData(dataISO) {
 
