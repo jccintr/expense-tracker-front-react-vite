@@ -10,9 +10,14 @@ const Dashboard = () => {
       <div className='flex w-full flex-row justify-between mb-4'>
         <h1 className='text-3xl font-semibold'>Dashboard</h1>
       </div>
+      <div className='grid grid-cols-1 overflow-y-auto'>
+        <Barchart/>
+      </div>
+      <div className='grid grid-cols-2 overflow-y-auto gap-4 mt-4 '>
+        <DonutChart/>
+        <PizzaChart/>
+      </div>
      
-      <DonutChart/>
-      <PizzaChart/>
     </div>
   )
 }

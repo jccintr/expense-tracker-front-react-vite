@@ -74,19 +74,19 @@ const nextWeek = async () => {
 }
 
   return (
-    <Card>
+    <Card >
     <CardHeader className="flex flex-row justify-between">
 
-        <div className="flex flex-row  gap-2 bg-amber-400">
-          <ChevronLeft className="bg-blue-400" onClick={previousWeek}/>
+        <div className="flex flex-row  gap-2">
+          <ChevronLeft  onClick={previousWeek}/>
           <Label className="text-base">{`${firstDay?.getDate()} ${months[firstDay?.getMonth()]} - ${lastDay?.getDate()} ${months[lastDay?.getMonth()]}`}</Label>
-          <ChevronRight className="bg-blue-400" onClick={nextWeek}/>
+          <ChevronRight  onClick={nextWeek}/>
         </div>
         <Label className="text-xl font-semibold">R$ {total.toFixed(2)}</Label>
      
     </CardHeader>
     <CardContent>
-      <ChartContainer config={chartConfig}>
+      <ChartContainer config={chartConfig} className='h-[40vh] w-full'>
         <BarChart accessibilityLayer data={barData}>
           <CartesianGrid vertical={false} />
           <XAxis
@@ -98,9 +98,9 @@ const nextWeek = async () => {
           />
           <ChartTooltip
             cursor={false}
-            content={<ChartTooltipContent hideLabel />}
+            content={<ChartTooltipContent hideLabel={false} />}
           />
-          <Bar dataKey="gastos" fill="var(--color-desktop)" radius={8} />
+          <Bar dataKey="gastos" fill="#1F305E" radius={8} />
         </BarChart>
       </ChartContainer>
     </CardContent>
