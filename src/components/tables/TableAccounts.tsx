@@ -23,9 +23,9 @@ const TableAccounts = ({accounts,onEdit,onDelete}) => {
           </TableHeader>
           <TableBody>
           {accounts.map((account) => (
-             <TableRow>
+             <TableRow key={account.id}>
+
                 <TableCell className="font-medium">{account.name}</TableCell>
-                
                 <TableCell  className="text-right">
                   <Button onClick={()=>onEdit(account)} className='mr-2'><Pencil/></Button>
                   <Button onClick={()=>onDelete(account)} variant="destructive"><Trash2/></Button>
