@@ -77,10 +77,10 @@ const nextWeek = async () => {
     <Card >
     <CardHeader className="flex flex-row justify-between">
 
-        <div className="flex flex-row  gap-2">
-          <ChevronLeft  onClick={previousWeek}/>
-          <Label className="text-base">{`${firstDay?.getDate()} ${months[firstDay?.getMonth()]} - ${lastDay?.getDate()} ${months[lastDay?.getMonth()]}`}</Label>
-          <ChevronRight  onClick={nextWeek}/>
+       <div className="flex flex-row items-center gap-2">
+          <ChevronLeft  onClick={previousWeek} className='w-7 h-7'/>
+          <span className="text-base h-7">{`${firstDay?.getDate()} ${months[firstDay?.getMonth()]} - ${lastDay?.getDate()} ${months[lastDay?.getMonth()]}`}</span>
+          <ChevronRight  onClick={nextWeek} className='w-7 h-7'/>
         </div>
         <Label className="text-xl font-semibold">R$ {total.toFixed(2)}</Label>
      

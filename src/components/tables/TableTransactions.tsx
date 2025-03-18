@@ -1,6 +1,7 @@
 import {Table,TableBody,TableCell,TableHead,TableHeader,TableRow,} from "@/components/ui/table"
 import { Trash2,Pencil } from "lucide-react"
 import { Button } from '@/components/ui/button'
+import { formataHora } from "@/util/util"
 
 const TableTransactions = ({transactions,onEdit,onDelete}) => {
   return (
@@ -8,6 +9,7 @@ const TableTransactions = ({transactions,onEdit,onDelete}) => {
     <TableHeader>
       <TableRow>
         <TableHead>Descrição</TableHead>
+        <TableHead>Hora</TableHead>
         <TableHead>Categoria</TableHead>
         <TableHead>Conta</TableHead>
         <TableHead className="text-right">Valor</TableHead>
@@ -18,6 +20,7 @@ const TableTransactions = ({transactions,onEdit,onDelete}) => {
     {transactions.map((transaction) => (
        <TableRow key={transaction.id}>
           <TableCell className="font-medium">{transaction.description}</TableCell>
+          <TableCell className="font-medium">{formataHora(transaction.createdAt)}</TableCell>
           <TableCell className="font-medium">{transaction.category.name}</TableCell>
           <TableCell className="font-medium">{transaction.account.name}</TableCell>
           <TableCell className="text-right font-medium">{transaction.amount.toFixed(2)}</TableCell>

@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button'
-import {useState,useEffect,useContext} from 'react'
+import {useState,useEffect,useContext, SetStateAction} from 'react'
 import api from '@/api/api';
 import AuthContext from '@/context/AuthContext';
 import TableTransactions from '@/components/tables/TableTransactions';
@@ -21,9 +21,9 @@ const Transactions = () => {
   const [errorMessage,setErrorMessage] = useState(null);
   const [data,setData] = useState(null);
   const [categories,setCategories] = useState([]);
-  const [selectedCategory,setSelectedCategory] = useState(null);
+  //const [selectedCategory,setSelectedCategory] = useState(null);
   const [accounts,setAccounts] = useState([]);
-  const [selectedAccount,setSelectedAccount] = useState(null);
+  //const [selectedAccount,setSelectedAccount] = useState(null);
 
 
 
@@ -43,7 +43,7 @@ const Transactions = () => {
 
 
 const getTransactions = async () => {
-    
+    console.log('Data API=>',formataDataAPI(data))
     const response = await api.getTransactions(formataDataAPI(data),token);
     const json = await response.json();
     setTransactions(json);
@@ -68,12 +68,12 @@ const getCategories = async () => {
  }
 
  const onAdd = () => {
-  setTransaction({id:0,description:'',amount:"0",category_id:0,account_id:0});
+  setTransaction({id:0,description:'',amount:"0",category_id:null,account_id:null});
   setErrorMessage(null);
   setIsModalOpen(true);
 }
 
-const onEdit = (transaction) => {
+const onEdit = (transaction: { id: any; description: any; category: { id: any; }; account: { id: any; }; amount: { toString: () => any; }; }) => {
  
   setTransaction({id:transaction.id,description:transaction.description,category_id:transaction.category.id,account_id:transaction.account.id,amount:transaction.amount.toString()});
   setErrorMessage(null);
@@ -81,7 +81,7 @@ const onEdit = (transaction) => {
 
 }
 
-const onDelete = (transaction) => {
+const onDelete = (transaction: SetStateAction<{ id: number; description: string; amount: string; category_id: number; account_id: number; }>) => {
   setTransaction(transaction);
   setIsModalDeleteOpen(true);
 }
@@ -180,10 +180,10 @@ const previousDay = () => {
           <h1 className='text-3xl font-semibold'>Transações</h1>
           <Button onClick={()=>onAdd()}>Nova Transação</Button>
         </div>
-        <div className="flex flex-row  gap-2">
-            <ChevronLeft  onClick={previousDay}/>
-            <Label className="text-base">{formataData(data)}</Label>
-            <ChevronRight onClick={nextDay}/>
+        <div className="flex flex-row items-center gap-2">
+            <ChevronLeft  onClick={previousDay} className='w-7 h-7'/>
+            <span className="text-base h-7">{formataData(data)}</span>
+            <ChevronRight onClick={nextDay} className='w-7 h-7'/>
         </div>
         {transactions.length>0&&<TableTransactions transactions={transactions} onEdit={onEdit} onDelete={onDelete}/>}
         {transactions.length==0&&<EmptyTable buttonLabel='Adicionar Transação' message='Transações não encontradas.' message2='Por favor, escolha outra data ou adicione uma nova transação.' onAdd={onAdd}/>}

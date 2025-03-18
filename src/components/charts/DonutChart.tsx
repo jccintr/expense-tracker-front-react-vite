@@ -87,10 +87,11 @@ import LegendItem from './LegendItem'
     <Card className="flex flex-col">
      <CardHeader className="flex flex-row justify-between">
      
-             <div className="flex flex-row  gap-2">
-               <ChevronLeft  onClick={previousMonth}/>
-               <Label className="text-base">{months[date?.getMonth()]+' '+date?.getFullYear()}</Label>
-               <ChevronRight  onClick={nextMonth}/>
+             <div className="flex flex-row items-center gap-2">
+               <ChevronLeft  onClick={previousMonth} className='w-7 h-7'/>
+               <span className="text-base h-7">{months[date?.getMonth()]+' '+date?.getFullYear()}</span>
+               
+               <ChevronRight  onClick={nextMonth} className='w-7 h-7'/>
              </div>
              <Label className="text-xl font-semibold">R$ {total.toFixed(2)}</Label>
           

@@ -2,12 +2,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 
 const SelectInput = ({placeholder,data,onChange,selected}) => {
   return (
-    <div className="col-span-3 bg-amber-300">
-    <Select value={selected}  onValueChange={(value)=>onChange(value)}>
-        <SelectTrigger className="min-col-span-3">
+    <div className="col-span-3">
+    <Select  value={selected==null?'':selected}  onValueChange={(value)=>onChange(value)}>
+        <SelectTrigger className="w-[277px]" >
             <SelectValue placeholder={placeholder}/>
         </SelectTrigger>
-        <SelectContent className="flex-1">
+        <SelectContent >
            {data.map((item)=><SelectItem key={item.id} value={item.id}>{item.name}</SelectItem>)}
         </SelectContent>
     </Select>
