@@ -26,13 +26,14 @@ const Categories = () => {
 },[]);
 
 const getCategories = async () => {
+  setIsLoadingList(true);
   const response = await api.getCategories(token);
   if(response.ok){
      const json = await response.json();
      setCategories(json);
     
   }       
-  
+  setIsLoadingList(false);
 }
 
 const onAdd = () => {
@@ -111,7 +112,7 @@ const deleteCategory = async () => {
            <h1 className='text-3xl font-semibold'>Categorias</h1>
            <Button onClick={()=>onAdd()}>Nova Categoria</Button>
         </div>
-        {isLoadingList?<Loader2 className="animate-spin" />:<TableCategories categories={categories} onEdit={onEdit} onDelete={onDelete}/>}
+        {isLoadingList?<Loader2 className="animate-spin absolute bottom-6/12 left-6/12 h-10 w-10" />:<TableCategories categories={categories} onEdit={onEdit} onDelete={onDelete}/>}
         <CategoryModal errorMessage={errorMessage} isLoading={isLoading} category={category} setCategory={setCategory} isOpen={isModalOpen} setIsOpen={setIsModalOpen} title={'Nova Categoria'} description={'Insira os dados da nova categoria e clique em Salvar.'} onSave={addCategory}/>
         <CategoryModal errorMessage={errorMessage} isLoading={isLoading} category={category} setCategory={setCategory} isOpen={isModalEditOpen} setIsOpen={setIsModalEditOpen} title={'Editando Categoria'} description={'Altere os dados da categoria e clique em Salvar.'} onSave={updateCategory}/>
         <DeleteAlert isLoading={isLoading} deleteAction={deleteCategory} isOpen={isModalDeleteOpen} setIsOpen={setIsModalDeleteOpen} title="Deseja deletar esta categoria ?" description={'Esta operação vai excluir a categoria do banco de dados e não poderá ser revertida.'}/>

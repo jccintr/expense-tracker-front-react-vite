@@ -27,13 +27,13 @@ const Accounts = () => {
 },[]);
 
 const getAccounts = async () => {
-
+  setIsLoadingList(true)
   const response = await api.getAccounts(token);
   if(response.ok){
      const json = await response.json();
      setAccounts(json);
   }       
-  
+  setIsLoadingList(false)
 }
 
 const onAdd = () => {
@@ -111,7 +111,7 @@ const deleteAccount = async () => {
           <h1 className='text-3xl font-semibold'>Contas</h1>
           <Button onClick={()=>onAdd()}>Nova Conta</Button>
         </div>
-        {isLoadingList?<Loader2 className="animate-spin" />:<TableAccounts accounts={accounts} onEdit={onEdit} onDelete={onDelete}/>}
+        {isLoadingList?<Loader2 className="animate-spin absolute bottom-6/12 left-6/12 h-10 w-10" />:<TableAccounts accounts={accounts} onEdit={onEdit} onDelete={onDelete}/>}
         <AccountModal errorMessage={errorMessage} isLoading={isLoading} account={account} setAccount={setAccount} isOpen={isModalOpen} setIsOpen={setIsModalOpen} title={'Nova Conta'} description={'Insira os dados da nova conta e clique em Salvar.'} onSave={addAccount}/>
         <AccountModal errorMessage={errorMessage} isLoading={isLoading} account={account} setAccount={setAccount} isOpen={isModalEditOpen} setIsOpen={setIsModalEditOpen} title={'Editando Conta'} description={'Altere os dados da conta e clique em Salvar.'} onSave={updateAccount}/>
         <DeleteAlert isLoading={isLoading} deleteAction={deleteAccount} isOpen={isModalDeleteOpen} setIsOpen={setIsModalDeleteOpen} title="Deseja deletar esta conta ?" description={'Esta operação vai excluir a conta do banco de dados e não poderá ser revertida.'}/>

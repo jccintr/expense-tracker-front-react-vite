@@ -8,11 +8,13 @@ import DeleteAlert from '@/components/modals/DeleteAlert';
 import { formataDataAPI,formataData } from '@/util/util';
 import { ChevronRight,ChevronLeft } from "lucide-react"
 import EmptyTable from '@/components/EmptyTable';
+import { Loader2 } from "lucide-react"
 
 const Transactions = () => {
   const [transactions,setTransactions] = useState([]);
   const {token} = useContext(AuthContext);
   const [isLoading,setIsLoading] = useState<Boolean>(false);
+  const [isLoadingList,setIsLoadingList] = useState<Boolean>(false);
   const [isModalOpen,setIsModalOpen] = useState<Boolean>(false);
   const [isModalDeleteOpen,setIsModalDeleteOpen] = useState<Boolean>(false);
   const [isModalEditOpen,setIsModalEditOpen] = useState<Boolean>(false);
@@ -37,11 +39,11 @@ const Transactions = () => {
 
 
 const getTransactions = async (d: Date | undefined) => {
-    console.log('Data API=>',formataDataAPI(d))
+    setIsLoadingList(true)
     const response = await api.getTransactions(formataDataAPI(d),token);
     const json = await response.json();
-    console.log(json.length)
     setTransactions(json);
+    setIsLoadingList(false)
    
 }
 
@@ -182,8 +184,9 @@ const previousDay = () => {
             <span className="text-base h-7">{formataData(data)}</span>
             <ChevronRight onClick={nextDay} className='w-7 h-7'/>
         </div>
-        {transactions.length>0&&<TableTransactions transactions={transactions} onEdit={onEdit} onDelete={onDelete}/>}
-        {transactions.length==0&&<EmptyTable buttonLabel='Adicionar Transação' message='Transações não encontradas.' message2='Por favor, escolha outra data ou adicione uma nova transação.' onAdd={onAdd}/>}
+        {isLoadingList&&<Loader2 className="animate-spin absolute bottom-6/12 left-6/12 h-10 w-10" />}
+        {!isLoadingList&&transactions.length>0&&<TableTransactions transactions={transactions} onEdit={onEdit} onDelete={onDelete}/>}
+        {!isLoadingList&&transactions.length==0&&<EmptyTable buttonLabel='Adicionar Transação' message='Transações não encontradas.' message2='Por favor, escolha outra data ou adicione uma nova transação.' onAdd={onAdd}/>}
         <TransactionModal categories={categories} accounts={accounts} errorMessage={errorMessage} isLoading={isLoading} transaction={transaction} setTransaction={setTransaction} isOpen={isModalOpen} setIsOpen={setIsModalOpen} title={'Nova Transação'} description={'Insira os dados da nova transação e clique em Salvar.'} onSave={addTransaction}/>
         <TransactionModal categories={categories} accounts={accounts} errorMessage={errorMessage} isLoading={isLoading} transaction={transaction} setTransaction={setTransaction} isOpen={isModalEditOpen} setIsOpen={setIsModalEditOpen} title={'Editando Transação'} description={'Altere os dados da transação e clique em Salvar.'} onSave={updateTransaction}/>
         <DeleteAlert isLoading={isLoading} deleteAction={deleteTransaction} isOpen={isModalDeleteOpen} setIsOpen={setIsModalDeleteOpen} title="Deseja deletar esta transação ?" description={'Esta operação vai excluir a transação do banco de dados e não poderá ser revertida.'}/>
