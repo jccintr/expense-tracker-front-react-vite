@@ -29,14 +29,7 @@ const Transactions = () => {
     getTransactions(hoje);
  },[]);
 
- /*
-  useEffect(()=>{
-   
-      getTransactions(data);
-   
-     
-  },[data]);
-*/
+ 
   useEffect(()=>{
     getCategories();
     getAccounts();
