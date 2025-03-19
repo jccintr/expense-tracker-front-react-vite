@@ -10,15 +10,14 @@ import AuthContext from "@/context/AuthContext"
 import { useNavigate } from 'react-router-dom';
 import { Loader2 } from "lucide-react"
 
-//import { AlertCircle } from "lucide-react"
 
 
 
 const Login = () => {
-    const [formData,setFormData] = useState({email:'',password:''});
-    const [errorMessage,setErrorMessage] = useState(null);
+    const [formData,setFormData] = useState<{}>({email:'',password:''});
+    const [errorMessage,setErrorMessage] = useState<String>(null);
     const {setToken,setLoggedUser} = useContext(AuthContext);
-    const [isLoading,setIsloading] = useState(false);
+    const [isLoading,setIsloading] = useState<Boolean>(false);
     const navigate = useNavigate();
 
     const handleChange = (e: { target: { id: any; value: string; }; }) => {
@@ -74,7 +73,7 @@ const Login = () => {
              setLoggedUser(jsonUser);
              navigate('/?page=transactions');
              setIsloading(false);
-          //   navigation.reset({routes:[{name:'home'}]}); 
+          
           }
        
     }

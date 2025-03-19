@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import Transactions from './home/Transactions';
 import Accounts from './home/Accounts';
 import Categories from './home/Categories';
-import Dashboard from './home/DashBoard';
+import Dashboard from './home/Dashboard';
 import SideBar from '@/components/SideBar';
 
 
@@ -11,7 +11,7 @@ import SideBar from '@/components/SideBar';
 
 export const Home = () => {
   const location = useLocation();
-  const [page, setPage] = useState('');
+  const [page, setPage] = useState<String>('');
 
 
   useEffect(() => {

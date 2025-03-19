@@ -5,7 +5,7 @@ import { ChevronRight,ChevronLeft } from "lucide-react"
 import { Label } from "../ui/label"
 import { getWeekNumber } from "@/util/util"
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts"
-import {Card,CardContent,CardDescription,CardFooter,CardHeader,CardTitle,} from "@/components/ui/card"
+import {Card,CardContent,CardHeader} from "@/components/ui/card"
 import {ChartConfig,ChartContainer,ChartTooltip,ChartTooltipContent,} from "@/components/ui/chart"
 
  
@@ -22,19 +22,19 @@ import {ChartConfig,ChartContainer,ChartTooltip,ChartTooltipContent,} from "@/co
 
 const Barchart = () => {
     const [week,setWeek] = useState(0);
-    const [firstDay,setFirstDay] = useState(null);
-    const [lastDay,setLastDay] = useState(null);
-    const [total,setTotal] = useState(0);
+    const [firstDay,setFirstDay] = useState<Date>(null);
+    const [lastDay,setLastDay] = useState<Date>(null);
+    const [total,setTotal] = useState<Number>(0);
     const {token} = useContext(AuthContext);
     const [barData,setBarData] = useState([]);
-    const [isLoading,setIsLoading] = useState(false);
+    const [isLoading,setIsLoading] = useState<Boolean>(false);
   
     useEffect(()=>{
         const today = new Date(Date.now());
         const weekAtual = getWeekNumber(today);
        
         setWeek(weekAtual);
-        getData(10);
+        getData(weekAtual);
 },[]);
 
     const createBarData = (arr) => {

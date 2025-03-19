@@ -7,45 +7,47 @@ import TransactionModal from '@/components/modals/TransactionModal';
 import DeleteAlert from '@/components/modals/DeleteAlert';
 import { formataDataAPI,formataData } from '@/util/util';
 import { ChevronRight,ChevronLeft } from "lucide-react"
-import { Label } from '@/components/ui/label';
 import EmptyTable from '@/components/EmptyTable';
 
 const Transactions = () => {
   const [transactions,setTransactions] = useState([]);
   const {token} = useContext(AuthContext);
-  const [isLoading,setIsLoading] = useState(false);
-  const [isModalOpen,setIsModalOpen] = useState(false);
-  const [isModalDeleteOpen,setIsModalDeleteOpen] = useState(false);
-  const [isModalEditOpen,setIsModalEditOpen] = useState(false);
+  const [isLoading,setIsLoading] = useState<Boolean>(false);
+  const [isModalOpen,setIsModalOpen] = useState<Boolean>(false);
+  const [isModalDeleteOpen,setIsModalDeleteOpen] = useState<Boolean>(false);
+  const [isModalEditOpen,setIsModalEditOpen] = useState<Boolean>(false);
   const [transaction,setTransaction] = useState({id:0,description:'',amount:"0",category_id:0,account_id:0});
-  const [errorMessage,setErrorMessage] = useState(null);
-  const [data,setData] = useState(null);
-  const [categories,setCategories] = useState([]);
-  //const [selectedCategory,setSelectedCategory] = useState(null);
-  const [accounts,setAccounts] = useState([]);
-  //const [selectedAccount,setSelectedAccount] = useState(null);
-
-
+  const [errorMessage,setErrorMessage] = useState<String>(null);
+  const [data,setData] = useState<Date>(null);
+  const [categories,setCategories] = useState<[]>([]);
+  const [accounts,setAccounts] = useState<[]>([]);
+ 
 
   useEffect(()=>{
     const hoje = new Date(Date.now());
     setData(hoje);
+    getTransactions(hoje);
  },[]);
 
+ /*
   useEffect(()=>{
-      getTransactions();
+   
+      getTransactions(data);
+   
+     
   },[data]);
-
+*/
   useEffect(()=>{
     getCategories();
     getAccounts();
 },[]);
 
 
-const getTransactions = async () => {
-    console.log('Data API=>',formataDataAPI(data))
-    const response = await api.getTransactions(formataDataAPI(data),token);
+const getTransactions = async (d: Date | undefined) => {
+    console.log('Data API=>',formataDataAPI(d))
+    const response = await api.getTransactions(formataDataAPI(d),token);
     const json = await response.json();
+    console.log(json.length)
     setTransactions(json);
    
 }
@@ -165,12 +167,14 @@ const deleteTransaction = async () => {
 const nextDay = () => {
   const newDate = new Date(data);
   newDate.setDate(data.getDate() + 1);
+  getTransactions(newDate);
   setData(newDate);
 }
 
 const previousDay = () => {
   const newDate = new Date(data);
   newDate.setDate(data.getDate() - 1);
+  getTransactions(newDate);
   setData(newDate);
 }
 

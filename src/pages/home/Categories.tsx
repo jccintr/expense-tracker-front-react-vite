@@ -1,22 +1,24 @@
 import { Button } from '@/components/ui/button'
-import {useState,useEffect,useContext} from 'react'
+import {useState,useEffect,useContext, SetStateAction} from 'react'
 import api from '@/api/api';
 import AuthContext from '@/context/AuthContext';
 import TableCategories from '@/components/tables/TableCategories';
 import CategoryModal from '@/components/modals/CategoryModal';
 import DeleteAlert from '@/components/modals/DeleteAlert';
+import { Loader2 } from "lucide-react"
 
 
 
 const Categories = () => {
-  const [categories,setCategories] = useState([]);
+  const [categories,setCategories] = useState<[]>([]);
   const {token} = useContext(AuthContext);
-  const [isLoading,setIsLoading] = useState(false);
-  const [isModalOpen,setIsModalOpen] = useState(false);
-  const [isModalDeleteOpen,setIsModalDeleteOpen] = useState(false);
-  const [isModalEditOpen,setIsModalEditOpen] = useState(false);
-  const [category,setCategory] = useState({id:0,name:''});
-  const [errorMessage,setErrorMessage] = useState(null);
+  const [isLoading,setIsLoading] = useState<Boolean>(false);
+  const [isLoadingList,setIsLoadingList] = useState<Boolean>(false);
+  const [isModalOpen,setIsModalOpen] = useState<Boolean>(false);
+  const [isModalDeleteOpen,setIsModalDeleteOpen] = useState<Boolean>(false);
+  const [isModalEditOpen,setIsModalEditOpen] = useState<Boolean>(false);
+  const [category,setCategory] = useState<{}>({id:0,name:''});
+  const [errorMessage,setErrorMessage] = useState<String>(null);
  
 
   useEffect(()=>{
@@ -39,13 +41,13 @@ const onAdd = () => {
     setIsModalOpen(true);
 }
 
-const onEdit = (category) => {
+const onEdit = (category: SetStateAction<{ id: number; name: string; }>) => {
     setCategory(category);
     setErrorMessage(null);
     setIsModalEditOpen(true);
 }
 
-const onDelete = (category) => {
+const onDelete = (category: SetStateAction<{ id: number; name: string; }>) => {
   setCategory(category);
   setIsModalDeleteOpen(true);
 }
@@ -109,7 +111,7 @@ const deleteCategory = async () => {
            <h1 className='text-3xl font-semibold'>Categorias</h1>
            <Button onClick={()=>onAdd()}>Nova Categoria</Button>
         </div>
-        <TableCategories categories={categories} onEdit={onEdit} onDelete={onDelete}/>
+        {isLoadingList?<Loader2 className="animate-spin" />:<TableCategories categories={categories} onEdit={onEdit} onDelete={onDelete}/>}
         <CategoryModal errorMessage={errorMessage} isLoading={isLoading} category={category} setCategory={setCategory} isOpen={isModalOpen} setIsOpen={setIsModalOpen} title={'Nova Categoria'} description={'Insira os dados da nova categoria e clique em Salvar.'} onSave={addCategory}/>
         <CategoryModal errorMessage={errorMessage} isLoading={isLoading} category={category} setCategory={setCategory} isOpen={isModalEditOpen} setIsOpen={setIsModalEditOpen} title={'Editando Categoria'} description={'Altere os dados da categoria e clique em Salvar.'} onSave={updateCategory}/>
         <DeleteAlert isLoading={isLoading} deleteAction={deleteCategory} isOpen={isModalDeleteOpen} setIsOpen={setIsModalDeleteOpen} title="Deseja deletar esta categoria ?" description={'Esta operação vai excluir a categoria do banco de dados e não poderá ser revertida.'}/>
