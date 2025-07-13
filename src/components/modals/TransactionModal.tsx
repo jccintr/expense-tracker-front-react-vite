@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { Loader2 } from "lucide-react"
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import SelectInput from '../inputs/SelectInput'
@@ -12,11 +12,14 @@ const TransactionModal = ({isOpen,setIsOpen,title,description,onSave,transaction
   const [selectedAccount,setSelectedAccount] = useState(transaction.account_id);
 
 
+
   useEffect(()=>{
+    console.log('categoria:',selectedCategory);
     setTransaction({...transaction,category_id:selectedCategory})
   },[selectedCategory]);
 
   useEffect(()=>{
+    console.log('conta:',selectedAccount)
     setTransaction({...transaction,account_id:selectedAccount})
   },[selectedAccount]);
 
@@ -25,11 +28,10 @@ const TransactionModal = ({isOpen,setIsOpen,title,description,onSave,transaction
     <DialogContent className="sm:max-w-[425px]">
       <DialogHeader>
         <DialogTitle>{title}</DialogTitle>
-        <DialogDescription>
-          {description}
-        </DialogDescription>
+        <DialogDescription>{description}</DialogDescription>
       </DialogHeader>
       <div className="grid gap-4 py-4">
+
         <div className="grid grid-cols-4 items-center gap-4">
           <Label htmlFor="name" className="text-right">Descrição:</Label>
           <Input id="name" value={transaction.description} className="col-span-3" placeholder="Digite a descrição da transação" onChange={(e)=>setTransaction({...transaction,description:e.target.value})}/>
@@ -43,8 +45,8 @@ const TransactionModal = ({isOpen,setIsOpen,title,description,onSave,transaction
       
       </div>
       <DialogFooter>
-      {errorMessage&&<Label className="text-red-500 w-full justify-items-start">{errorMessage}</Label>}
-        <Button onClick={()=>onSave()}>{isLoading&&<Loader2 className="animate-spin" />}SALVAR</Button>
+          {errorMessage&&<Label className="text-red-500 w-full justify-items-start">{errorMessage}</Label>}
+          <Button onClick={()=>onSave()}>{isLoading&&<Loader2 className="animate-spin" />}SALVAR</Button>
       </DialogFooter>
     </DialogContent>
   </Dialog>

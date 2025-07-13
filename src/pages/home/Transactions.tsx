@@ -19,8 +19,8 @@ const Transactions = () => {
   const [isModalDeleteOpen,setIsModalDeleteOpen] = useState<Boolean>(false);
   const [isModalEditOpen,setIsModalEditOpen] = useState<Boolean>(false);
   const [transaction,setTransaction] = useState({id:0,description:'',amount:"0",category_id:0,account_id:0});
-  const [errorMessage,setErrorMessage] = useState<String>(null);
-  const [data,setData] = useState<Date>(null);
+  const [errorMessage,setErrorMessage] = useState<string|null>(null);
+  const [data,setData] = useState<Date|null>(null);
   const [categories,setCategories] = useState<[]>([]);
   const [accounts,setAccounts] = useState<[]>([]);
  
@@ -38,7 +38,7 @@ const Transactions = () => {
 },[]);
 
 
-const getTransactions = async (d: Date | undefined) => {
+const getTransactions = async (d: Date) => {
     setIsLoadingList(true)
     const response = await api.getTransactions(formataDataAPI(d),token);
     const json = await response.json();
@@ -65,7 +65,7 @@ const getCategories = async () => {
  }
 
  const onAdd = () => {
-  setTransaction({id:0,description:'',amount:"0",category_id:null,account_id:null});
+  setTransaction({id:0,description:'',amount:"0",category_id:0,account_id:0});
   setErrorMessage(null);
   setIsModalOpen(true);
 }
@@ -89,11 +89,7 @@ const addTransaction = async  () => {
     setErrorMessage('Informe uma descrição válida.');
     return;
    }
-   if(transaction.amount.trim().length===0 || Number(transaction.amount) <= 0){
-    setErrorMessage('Valor inválido.');
-    return;
-   }
-  
+     
    if(transaction.category_id==0){
     setErrorMessage('Selecione uma categoria.');
     return;
@@ -102,11 +98,16 @@ const addTransaction = async  () => {
     setErrorMessage('Selecione uma conta.');
     return;
    }
+
+   if(transaction.amount.trim().length===0 || Number(transaction.amount) <= 0){
+    setErrorMessage('Valor inválido.');
+    return;
+   }
   
    
     const response = await api.addTransaction(token,transaction);
     if(response.ok){
-      getTransactions();
+      getTransactions(data);
     
        setIsModalOpen(false);
     }
@@ -118,10 +119,7 @@ const updateTransaction = async  () => {
     setErrorMessage('Informe uma descrição válida.');
     return;
    }
-   if(transaction.amount.trim().length===0 || Number(transaction.amount) <= 0){
-    setErrorMessage('Valor inválido.');
-    return;
-   }
+  
   
    if(transaction.category_id==0){
     setErrorMessage('Selecione uma categoria.');
@@ -131,10 +129,15 @@ const updateTransaction = async  () => {
     setErrorMessage('Selecione uma conta.');
     return;
    }
+
+   if(transaction.amount.trim().length===0 || Number(transaction.amount) <= 0){
+    setErrorMessage('Valor inválido.');
+    return;
+   }
   
    const response = await api.updateTransaction(token,transaction.id,transaction);
    if(response.ok){
-     getTransactions();
+     getTransactions(data);
      //setIsLoadingTransaction(false);
      setIsModalEditOpen(false);
    }
@@ -144,7 +147,7 @@ const deleteTransaction = async () => {
     setIsLoading(true);
     const response = await api.deleteTransaction(token,transaction.id);
     if(response.ok){
-      getTransactions();
+      getTransactions(data);
       setIsLoading(false);
       setIsModalDeleteOpen(false);
       return;

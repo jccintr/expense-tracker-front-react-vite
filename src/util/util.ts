@@ -1,7 +1,7 @@
 
 export const months = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 
-export function formataData(dataISO) {
+export function formataData(dataISO:Date) {
 
     const data = new Date(dataISO);
     const dia = String(data.getDate()).padStart(2, '0');
@@ -12,7 +12,7 @@ export function formataData(dataISO) {
     return `${dia}-${mes}-${ano}`;
 }
 
-export function formataDataUTC(dataISO) {
+export function formataDataUTC(dataISO:Date) {
 
     const data = new Date(dataISO);
     const dia = String(data.getUTCDate()).padStart(2, '0');
@@ -23,7 +23,7 @@ export function formataDataUTC(dataISO) {
     return `${dia}-${mes}-${ano}`;
 }
 
-export function formataDataHora(dataISO) {
+export function formataDataHora(dataISO:Date) {
 
     const data = new Date(dataISO);
     const dia = String(data.getDate()).padStart(2, '0');
@@ -35,7 +35,7 @@ export function formataDataHora(dataISO) {
     return `${dia}-${mes}-${ano} ${horas}:${minutos}`;
 }
 
-export function formataDataHoraUTC(dataISO) {
+export function formataDataHoraUTC(dataISO:Date) {
 
     const data = new Date(dataISO);
     const dia = String(data.getUTCDate()).padStart(2, '0');
@@ -47,7 +47,7 @@ export function formataDataHoraUTC(dataISO) {
     return `${dia}-${mes}-${ano} ${horas}:${minutos}`;
 }
 
-export function formataHora(dataISO) {
+export function formataHora(dataISO:Date) {
 
     const data = new Date(dataISO);
     const horas = String(data.getHours()).padStart(2, '0');
@@ -56,7 +56,7 @@ export function formataHora(dataISO) {
     return `${horas}:${minutos}`;
 }
 
-export function formataHoraUTC(dataISO) {
+export function formataHoraUTC(dataISO:Date) {
 
     const data = new Date(dataISO);
     const horas = String(data.getUTCHours()).padStart(2, '0');
@@ -65,37 +65,35 @@ export function formataHoraUTC(dataISO) {
     return `${horas}:${minutos}`;
 }
 
-export function formataDataAPI(dataISO) {
+export function formataDataAPI(dataISO:Date) {
 
     const data = new Date(dataISO);
     const dia = String(data.getDate()).padStart(2, '0');
     const mes = String(data.getMonth() + 1).padStart(2, '0'); // Mês começa do 0
     const ano = data.getFullYear();
-    const horas = String(data.getHours()).padStart(2, '0');
-    const minutos = String(data.getMinutes()).padStart(2, '0');
+   
     
     return `${ano}-${mes}-${dia}`;
 }
 
-export function formataDataAPIUTC(dataISO) {
+export function formataDataAPIUTC(dataISO:Date) {
 
     const data = new Date(dataISO);
     const dia = String(data.getUTCDate()).padStart(2, '0');
     const mes = String(data.getUTCMonth() + 1).padStart(2, '0'); // Mês começa do 0
     const ano = data.getUTCFullYear();
-    const horas = String(data.getUTCHours()).padStart(2, '0');
-    const minutos = String(data.getUTCMinutes()).padStart(2, '0');
+    
     
     return `${ano}-${mes}-${dia}`;
 }
 
-export function formatarMoeda(valor, moeda = 'BRL', locale = 'pt-BR') {
+export function formatarMoeda(valor:number, moeda = 'BRL', locale = 'pt-BR') {
 
     return valor.toLocaleString(locale, { style: 'currency', currency: moeda });
     
 }
 
-export function getWeekNumber(date) {
+export function getWeekNumber(date:Date) {
     const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
     const pastDays = (date - firstDayOfYear) / (24 * 60 * 60 * 1000);
     return Math.ceil((pastDays + firstDayOfYear.getDay() + 1) / 7);
@@ -112,7 +110,7 @@ export function getWeekNumber(date) {
     return cor;
   }
 
-  export function calcularPercentual(total, valor) {
+  export function calcularPercentual(total:number, valor:number) {
   
       if (total === 0) {
         return "0%"; // Evita divisão por zero

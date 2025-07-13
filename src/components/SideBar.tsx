@@ -12,7 +12,7 @@ import {SidebarProvider,
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import logo from '../assets/logo350.png';
+//import logo from '../assets/logo350.png';
 import { Label } from "./ui/label";
 import AuthContext from "@/context/AuthContext";
 import { useNavigate } from 'react-router-dom';
@@ -57,7 +57,7 @@ const SideBar = () => {
     <SidebarProvider>
     <Sidebar>
     <SidebarHeader>
-      <img src={logo} alt='logo' className='w-6/12 m-auto' />
+      <img src='logo350.png' alt='logo' className='w-6/12 m-auto' />
       <Label className="w-full justify-center text-xl font-semibold">Expense Tracker</Label>
       <Label className="w-full justify-center text-sm font-semibold">{loggedUser.name}</Label>
     </SidebarHeader>

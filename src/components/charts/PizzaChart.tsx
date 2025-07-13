@@ -119,7 +119,7 @@ import LegendItem from './LegendItem'
           </PieChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className='flex-row justify-around'>
+      <CardFooter className='grid grid-cols-3 gap-2'>
          {chartData.map((data,index)=><LegendItem key={index} color={data.fill} label={data.account}/>)}
       </CardFooter>
     </Card>

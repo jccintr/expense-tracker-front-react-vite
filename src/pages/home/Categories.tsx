@@ -23,7 +23,7 @@ const Categories = () => {
 
   useEffect(()=>{
     getCategories();
-},[]);
+  },[]);
 
 const getCategories = async () => {
   setIsLoadingList(true);

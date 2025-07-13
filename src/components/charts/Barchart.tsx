@@ -8,8 +8,7 @@ import { Bar, BarChart, CartesianGrid, XAxis } from "recharts"
 import {Card,CardContent,CardHeader} from "@/components/ui/card"
 import {ChartConfig,ChartContainer,ChartTooltip,ChartTooltipContent,} from "@/components/ui/chart"
 
- 
-  
+
   const chartConfig = {
     gastos: {
       label: "Gastos",
@@ -22,7 +21,7 @@ import {ChartConfig,ChartContainer,ChartTooltip,ChartTooltipContent,} from "@/co
 
 const Barchart = () => {
     const [week,setWeek] = useState(0);
-    const [firstDay,setFirstDay] = useState<Date>(null);
+    const [firstDay,setFirstDay] = useState<Date|null>(null);
     const [lastDay,setLastDay] = useState<Date>(null);
     const [total,setTotal] = useState<Number>(0);
     const {token} = useContext(AuthContext);

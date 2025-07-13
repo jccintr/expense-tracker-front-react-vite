@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import {Card,CardContent,CardDescription,CardFooter,CardHeader,CardTitle} from "@/components/ui/card"
-import logo from '../assets/logo350.png';
+//import logo from '../assets/logo350.png';
 import { useState,useContext } from "react";
 import AuthContext from "@/context/AuthContext"
 import { useNavigate } from 'react-router-dom';
@@ -82,7 +82,7 @@ const Login = () => {
     <div className="flex flex-col items-center justify-center min-h-svh bg-gray-100">
         <Card className="w-[350px]">
             <CardHeader className="justify-center">
-               <img src={logo} alt='logo' className='w-8/12 m-auto' />
+               <img src='logo350.png' alt='logo' className='w-8/12 m-auto' />
                <CardTitle className="w-full text-center text-xl" >Expense Tracker</CardTitle>
                <CardDescription className="w-full text-center text-sm">Informe suas credenciais para acessar o sistema</CardDescription>
             </CardHeader>

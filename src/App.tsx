@@ -1,4 +1,4 @@
-import { BrowserRouter,Route,Routes } from 'react-router-dom';
+import { BrowserRouter,Route,Routes,HashRouter } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import PrivateRoute from './routes/PrivateRoute';
 import Login from './pages/Login';
@@ -10,7 +10,7 @@ function App() {
   return (
     <AuthProvider>
    
-          <BrowserRouter>
+          <HashRouter>
            
               <Routes>
                   <Route path="/login" element={<Login/>}/>
@@ -19,7 +19,7 @@ function App() {
                   </Route>
               </Routes>
            
-          </BrowserRouter>
+          </HashRouter>
      
    </AuthProvider>
   )
